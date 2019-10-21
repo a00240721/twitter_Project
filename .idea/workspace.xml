@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="95855ecd-f9ab-4c31-a469-4cf406fabd85" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/images/new_plot.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/new_plot.png" afterDir="false" />
-    </list>
+    <list default="true" id="95855ecd-f9ab-4c31-a469-4cf406fabd85" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +88,7 @@
       <workItem from="1571043206732" duration="1540000" />
       <workItem from="1571129926657" duration="4677000" />
       <workItem from="1571644467180" duration="692000" />
-      <workItem from="1571645657488" duration="2624000" />
+      <workItem from="1571645657488" duration="3206000" />
     </task>
     <servers />
   </component>
