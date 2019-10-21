@@ -1,6 +1,6 @@
 import re
 
-import self as self
+
 import tweepy
 import private_key as pk
 from matplotlib import pyplot as plt
