@@ -1,6 +1,6 @@
 import re
 
-import self as self
+# import self as self
 import tweepy
 import private_key as pk
 from matplotlib import pyplot as plt
@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 fig = ''
 
-@app.route('/results')
+@app.route('/')
 def hello_world():
     return 'Hello World!'
 
@@ -92,6 +92,8 @@ class TwitterClient(object):
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
 
+                parsed_tweet['location'] = tweet.user.location
+                parsed_tweet['screen_name'] = tweet.user.screen_name
                 # saving text of tweet
                 parsed_tweet['text'] = tweet.text
                 # saving sentiment of tweet
@@ -112,7 +114,7 @@ class TwitterClient(object):
             # print error (if any)
             print("Error : " + str(e))
 
-@app.route('/')
+@app.route('/results')
 def results():
     # creating object of TwitterClient Class
     api = TwitterClient()
@@ -149,7 +151,7 @@ def results():
     nutTweetList=[tweet for tweet in tweets if tweet['sentiment'] == 'neutral']
     tweetList=[]
     for tweet in nutTweetList:
-        tweetList.append(tweet['text'])
+        tweetList.append(tweet['screen_name'] + " : " + tweet['text'])
     #print(topic)
 
     labels = 'Positive', 'Negative', 'Neutral'
