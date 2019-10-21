@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <img src={{ url}} alt="Chart">
+    <h3>Positive Sentiment: {{ pPer }}%</h3>
+    <ol>
+        {%for i in range(0, pTweetLen)%}
+            <li>{{pList[i]}}</li>
+        {%endfor%}
+    </ol>
+    <h3>Neutral Sentiment: {{ nuP }}%</h3>
+    <ol>
+        {%for i in range(0, tweetslen)%}
+            <li>{{List[i]}}</li>
+        {%endfor%}
+    </ol>
+    <h3>Negative Sentiment: {{ negP }}%</h3>
+    <ol>
+        {%for i in range(0, nTweetlen)%}
+            <li>{{nList[i]}}</li>
+        {%endfor%}
+    </ol>
+</body>
+</html>
