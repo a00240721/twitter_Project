@@ -10,7 +10,7 @@
     <h3>Positive Sentiment: {{ pPer }}%</h3>
     <ol>
         {%for i in range(0, pTweetLen)%}
-            <li>{{pList[i]}}</li>
+            <li><img src="{{ pListProfile[i] }}">{{pList[i]}}</li>
         {%endfor%}
     </ol>
     <h3>Neutral Sentiment: {{ nuP }}%</h3>

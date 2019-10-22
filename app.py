@@ -9,12 +9,12 @@ from tweepy import OAuthHandler
 from textblob import TextBlob
 from flask import Flask, render_template
 
-
 app = Flask(__name__)
 
 fig = ''
 
-@app.route('/')
+
+# @app.route('/')
 def hello_world():
     return 'Hello World!'
 
@@ -91,7 +91,7 @@ class TwitterClient(object):
             for tweet in fetched_tweets:
                 # empty dictionary to store required params of a tweet
                 parsed_tweet = {}
-
+                parsed_tweet['profile_pic'] = tweet.user.profile_image_url
                 parsed_tweet['location'] = tweet.user.location
                 parsed_tweet['screen_name'] = tweet.user.screen_name
                 # saving text of tweet
@@ -114,7 +114,8 @@ class TwitterClient(object):
             # print error (if any)
             print("Error : " + str(e))
 
-@app.route('/results')
+
+@app.route('/')
 def results():
     # creating object of TwitterClient Class
     api = TwitterClient()
@@ -137,22 +138,25 @@ def results():
     nutPer = 100 * (len(tweets) - (len(ntweets) + len(ptweets))) / len(tweets)
     # printing first 5 positive tweets
     print("\n\nPositive tweets:")
-    ptweetsList = [];
+    ptweetsList = []
+    pListProfile =[]
     for tweet in ptweets:
-        #print(tweet['text'])
-        ptweetsList.append(tweet['text'])
+        # print(tweet['text'])
+        pListProfile.append(tweet['profile_pic'])
+        tweetText = tweet['screen_name'] + " : " + tweet['text']
+        ptweetsList.append(tweetText)
 
     # printing first 5 negative tweets
     print("\n\nNegative tweets:")
-    ntweetList=[]
+    ntweetList = []
     for tweet in ntweets:
-        ntweetList.append(tweet['text'])
+        ntweetList.append(tweet['screen_name'] + " : " + tweet['text'])
 
-    nutTweetList=[tweet for tweet in tweets if tweet['sentiment'] == 'neutral']
-    tweetList=[]
+    nutTweetList = [tweet for tweet in tweets if tweet['sentiment'] == 'neutral']
+    tweetList = []
     for tweet in nutTweetList:
         tweetList.append(tweet['screen_name'] + " : " + tweet['text'])
-    #print(topic)
+    # print(topic)
 
     labels = 'Positive', 'Negative', 'Neutral'
     sizes = [len(ptweets), len(ntweets), len(tweetList)]
@@ -164,13 +168,12 @@ def results():
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.savefig('./static/images/new_plot.png')
     # plt.show()
-    return render_template('tweet.html',pPer=posPer,negP=negPer,nuP=nutPer,
+    return render_template('tweet.html', pPer=posPer, negP=negPer, nuP=nutPer,
                            tweetslen=len(tweetList), nTweetlen=len(ntweets),
                            pTweetLen=len(ptweets), nList=ntweetList, pList=ptweetsList,
+                           pListProfile=pListProfile,
                            List=tweetList, name='new_plot', url='./static/images/new_plot.png',
                            title=topic)
-
-
 
 
 if __name__ == '__main__':
