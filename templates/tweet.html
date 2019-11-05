@@ -3,27 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>{{ title }}</h1>
-    <img src={{ url}} alt="Chart">
-    <h3>Positive Sentiment: {{ pPer }}%</h3>
-    <ol>
-        {%for i in range(0, pTweetLen)%}
-            <li><img src="{{ pListProfile[i] }}">{{pList[i]}}</li>
-        {%endfor%}
-    </ol>
-    <h3>Neutral Sentiment: {{ nuP }}%</h3>
-    <ol>
-        {%for i in range(0, tweetslen)%}
-            <li>{{List[i]}}</li>
-        {%endfor%}
-    </ol>
-    <h3>Negative Sentiment: {{ negP }}%</h3>
-    <ol>
-        {%for i in range(0, nTweetlen)%}
-            <li>{{nList[i]}}</li>
-        {%endfor%}
-    </ol>
+<h1>{{ title }}</h1>
+<div id="container" style="width:100%; height:400px;"></div>
+<!--img src={{ url}} alt="Chart"-->
+<h3>Positive Sentiment: {{ pPer }}%</h3>
+<ol>
+    {% for i in range(0, pTweetLen) %}
+        <li><img src="{{ pListProfile[i] }}">{{ pList[i] }}</li>
+    {% endfor %}
+</ol>
+<h3>Neutral Sentiment: {{ nuP }}%</h3>
+<ol>
+    {% for i in range(0, tweetslen) %}
+        <li>{{ List[i] }}</li>
+    {% endfor %}
+</ol>
+<h3>Negative Sentiment: {{ negP }}%</h3>
+<ol>
+    {% for i in range(0, nTweetlen) %}
+        <li>{{ nList[i] }}</li>
+    {% endfor %}
+</ol>
 </body>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var myChart = Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Sentiment'
+            },
+            xAxis: {
+                categories: ['Negative', 'Neutral ', 'Positive']
+            },
+            yAxis: {
+                title: {
+                    text: 'Tweets'
+                }
+            },
+            series: [{
+                name: '{{ title }}',
+                data: [{{ nTweetlen }}, {{ tweetslen }}, {{ pTweetLen }}]
+            },
+                {
+                    'name': 'number 2',
+                    data: [5, 7, 3]
+                }]
+        })
+    });
+    setInterval(update, 5000);
+
+    function update() {
+        console.log('update');
+        const Http = new XMLHttpRequest();
+        const url = 'http://127.0.0.1:5000/update';
+        Http.open("GET", url);
+        Http.send();
+        var myChart = Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Sentiment'
+            },
+            xAxis: {
+                categories: ['Negative', 'Neutral ', 'Positive']
+            },
+            yAxis: {
+                title: {
+                    text: 'Tweets'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            series: [{
+                name: '{{ title }}',
+                data: [{
+                    name: 'Negative',
+                    y:{{ nTweetlen }}
+                    ,drilldown: 'Negative'
+                }, {
+                    name: 'Neutral',
+                    y:{{ tweetslen }}
+                    ,drilldown:'Neutral'
+                }, {
+                    name: 'Positive',
+                    y:{{ pTweetLen}}
+                    ,drilldown:'Positive'
+                }]
+            }]
+          ,drilldown:{
+                series: [
+                    {
+                        name: "Negative",
+                        id: "Negative",
+                        data: [{
+                            name: 'Negative',
+                            x:{{ nTweetlen }},
+                        }]
+                    },
+                    {
+                        name: "Neutral",
+                        id: "Neutral",
+                        data: [{
+                            name: 'Neutral',
+                            x:{{ tweetslen }},
+                        }]
+                    },
+                    {
+                        name: "Positive",
+                        id: "Positive",
+                        data: [{
+                            name: 'Positive',
+                            x:{{ pTweetLen }},
+                        }]
+                    }]
+            }
+        })
+    }
+</script>
 </html>

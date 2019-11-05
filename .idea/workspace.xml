@@ -18,6 +18,7 @@
       <list>
         <option value="Flask Main" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -95,7 +96,9 @@
       <workItem from="1571644467180" duration="692000" />
       <workItem from="1571645657488" duration="4220000" />
       <workItem from="1571666262103" duration="617000" />
-      <workItem from="1571734908157" duration="1617000" />
+      <workItem from="1571734908157" duration="1897000" />
+      <workItem from="1572858208536" duration="4292000" />
+      <workItem from="1572944507231" duration="6222000" />
     </task>
     <servers />
   </component>
@@ -116,7 +119,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/twitter_Project$twitter_project.coverage" NAME="twitter_project Coverage Results" MODIFIED="1571737539916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/twitter_Project$twitter_project.coverage" NAME="twitter_project Coverage Results" MODIFIED="1572951130266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/flask_lab_01$flask_lab_01.coverage" NAME="flask_lab_01 Coverage Results" MODIFIED="1571239978932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/twitter_Project$flask_lab_01.coverage" NAME="twitter_project Coverage Results" MODIFIED="1571649864797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

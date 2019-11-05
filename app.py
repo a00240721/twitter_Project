@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 
 from tweepy import OAuthHandler
 from textblob import TextBlob
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 
@@ -139,7 +139,7 @@ def results():
     # printing first 5 positive tweets
     print("\n\nPositive tweets:")
     ptweetsList = []
-    pListProfile =[]
+    pListProfile = []
     for tweet in ptweets:
         # print(tweet['text'])
         pListProfile.append(tweet['profile_pic'])
@@ -174,6 +174,71 @@ def results():
                            pListProfile=pListProfile,
                            List=tweetList, name='new_plot', url='./static/images/new_plot.png',
                            title=topic)
+
+
+@app.route('/update', methods=['GET'])
+def updateResults():
+    # creating object of TwitterClient Class
+    api = TwitterClient()
+    # calling function to get tweets
+    topic = 'Donald Trump'
+    tweets = api.get_tweets(query=topic, count=20000)
+
+    # picking positive tweets from tweets
+    ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
+    # percentage of positive tweets
+    print("Positive tweets percentage: {} %".format(100 * len(ptweets) / len(tweets)))
+    pPer = 100 * len(ptweets) / len(tweets)
+    # picking negative tweets from tweets
+    ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
+    # percentage of negative tweets
+    print("Negative tweets percentage: {} %".format(100 * len(ntweets) / len(tweets)))
+    negP = 100 * len(ntweets) / len(tweets)
+    # percentage of neutral tweets
+    print("Neutral tweets percentage: {} %".format(100 * (len(tweets) - (len(ntweets) + len(ptweets))) / len(tweets)))
+    nuP = 100 * (len(tweets) - (len(ntweets) + len(ptweets))) / len(tweets)
+    # printing first 5 positive tweets
+    ptweetsList = []
+    pListProfile = []
+    for tweet in ptweets:
+        # print(tweet['text'])
+        # pListProfile.append(tweet['profile_pic'])
+        tweetText = tweet['screen_name'] + " : " + tweet['text']
+        ptweetsList.append(tweetText)
+
+    # printing first 5 negative tweets
+    ntweetList = []
+    for tweet in ntweets:
+        ntweetList.append(tweet['screen_name'] + " : " + tweet['text'])
+
+    nutTweetList = [tweet for tweet in tweets if tweet['sentiment'] == 'neutral']
+    tweetList = []
+    for tweet in nutTweetList:
+        tweetList.append(tweet['screen_name'] + " : " + tweet['text'])
+    # print(topic)
+
+    labels = 'Positive', 'Negative', 'Neutral'
+    sizes = [len(ptweets), len(ntweets), len(tweetList)]
+    explode = (0.1, 0.1, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    plt.savefig('./static/images/new_plot.png')
+    # plt.show()
+    tweetslen = len(tweetList)
+    nTweetlen = len(ntweets)
+    pTweetLen = len(ptweets)
+    name = 'new_plot'
+    url = './static/images/new_plot.png',
+    title = topic
+    res = {"pPer": pPer, "negP": negP, "nuP": nuP,
+           "tweetslen": tweetslen, "nTweetlen": nTweetlen,
+           "pTweetLen": pTweetLen, "name": name, "url": url,
+           "title": title}
+    print(jsonify(res))
+    return jsonify(res)
 
 
 if __name__ == '__main__':
