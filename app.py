@@ -54,10 +54,6 @@ class TwitterClient(object):
         except:
             print("Error: Authentication Failed")
 
-
-    def get_user(self, user_id, screen_name):
-        return self.api.get_user(id=user_id, screen_name=screen_name)
-
     def clean_tweet(self, tweet):
         '''
 		Utility function to clean tweet text by removing links, special characters
@@ -90,8 +86,7 @@ class TwitterClient(object):
         try:
             # call twitter api to fetch tweets
             fetched_tweets = self.api.search(q=query, count=count)
-            print(fetched_tweets[0])
-            print(fetched_tweets[0].source)
+
             # parsing tweets one by one
             for tweet in fetched_tweets:
                 # empty dictionary to store required params of a tweet
@@ -99,12 +94,10 @@ class TwitterClient(object):
                 parsed_tweet['profile_pic'] = tweet.user.profile_image_url
                 parsed_tweet['location'] = tweet.user.location
                 parsed_tweet['screen_name'] = tweet.user.screen_name
-                parsed_tweet['user_id'] = tweet.user.id
                 # saving text of tweet
                 parsed_tweet['text'] = tweet.text
                 # saving sentiment of tweet
                 parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
-                parsed_tweet['source'] = tweet.source
 
                 # appending parsed tweet to tweets list
                 if tweet.retweet_count > 0:
@@ -129,6 +122,7 @@ def results():
     # calling function to get tweets
     topic = 'Donald Trump'
     tweets = api.get_tweets(query=topic, count=20000)
+
     # picking positive tweets from tweets
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
     # percentage of positive tweets
@@ -174,17 +168,6 @@ def results():
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.savefig('./static/images/new_plot.png')
     # plt.show()
-
-    print(tweets[0])
-    # user0 = api.get_user(screen_name=tweets[0]['screen_name'], user_id=tweets[0]['user_id'])
-    # print(user0)
-    # print(user0._json['status']['source'])
-    # source0 = user0._json['status']['source']
-    # source1 = source0.split("Twitter ")[1]
-    # source2 = source1.split("<")[0]
-    # if 'for ' in source2:
-    #     source2 = source2.split("for ")[1]
-    # print(source2)
     return render_template('tweet.html', pPer=posPer, negP=negPer, nuP=nutPer,
                            tweetslen=len(tweetList), nTweetlen=len(ntweets),
                            pTweetLen=len(ptweets), nList=ntweetList, pList=ptweetsList,
@@ -254,11 +237,7 @@ def updateResults():
            "tweetslen": tweetslen, "nTweetlen": nTweetlen,
            "pTweetLen": pTweetLen, "name": name, "url": url,
            "title": title}
-    #print(jsonify(res))
-    #print(tweets[0])
-    user0 = api.get_user(screen_name=tweets[0]['screen_name'], user_id=tweets[0]['user_id'])
-    #print(user0)
-    print(user0._json)
+    print(jsonify(res))
     return jsonify(res)
 
 
