@@ -1,6 +1,7 @@
 import re
 
 # import self as self
+import self
 import tweepy
 import private_key as pk
 from matplotlib import pyplot as plt
@@ -19,16 +20,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/templates')
-def hello_template():
-    myList = []
-    myList.append('Apple')
-    myList.append('Orange')
-    myList.append('Lemon')
-    return render_template('index.html', hello="My new Flask Hello World", list=myList, len=len(myList))
-
-
-class TwitterClient(object):
+class user_lookup(object):
     '''
 	Generic Twitter Class for sentiment analysis.
 	'''
@@ -53,7 +45,6 @@ class TwitterClient(object):
             self.api = tweepy.API(self.auth)
         except:
             print("Error: Authentication Failed")
-
 
     def get_user(self, user_id, screen_name):
         return self.api.get_user(id=user_id, screen_name=screen_name)
@@ -91,7 +82,6 @@ class TwitterClient(object):
             # call twitter api to fetch tweets
             fetched_tweets = self.api.search(q=query, count=count)
             print(fetched_tweets[0])
-            print(fetched_tweets[0].source)
             # parsing tweets one by one
             for tweet in fetched_tweets:
                 # empty dictionary to store required params of a tweet
@@ -104,7 +94,6 @@ class TwitterClient(object):
                 parsed_tweet['text'] = tweet.text
                 # saving sentiment of tweet
                 parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
-                parsed_tweet['source'] = tweet.source
 
                 # appending parsed tweet to tweets list
                 if tweet.retweet_count > 0:
@@ -115,6 +104,9 @@ class TwitterClient(object):
                     tweets.append(parsed_tweet)
 
             # return parsed tweets
+
+            user0 = self.api.get_user(id=tweets[0]['user_id'], screen_name=tweets[0]['screen_name'])
+            print(user0)
             return tweets
 
         except tweepy.TweepError as e:
@@ -122,10 +114,11 @@ class TwitterClient(object):
             print("Error : " + str(e))
 
 
+
 @app.route('/')
 def results():
     # creating object of TwitterClient Class
-    api = TwitterClient()
+    api = user_lookup()
     # calling function to get tweets
     topic = 'Donald Trump'
     tweets = api.get_tweets(query=topic, count=20000)
@@ -174,17 +167,9 @@ def results():
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.savefig('./static/images/new_plot.png')
     # plt.show()
-
     print(tweets[0])
-    # user0 = api.get_user(screen_name=tweets[0]['screen_name'], user_id=tweets[0]['user_id'])
-    # print(user0)
-    # print(user0._json['status']['source'])
-    # source0 = user0._json['status']['source']
-    # source1 = source0.split("Twitter ")[1]
-    # source2 = source1.split("<")[0]
-    # if 'for ' in source2:
-    #     source2 = source2.split("for ")[1]
-    # print(source2)
+    print(tweets[0]['user_id'])
+    print(api.get_user(user_id=tweets[0]['user_id'], screen_name=tweets[0]['screen_name']))
     return render_template('tweet.html', pPer=posPer, negP=negPer, nuP=nutPer,
                            tweetslen=len(tweetList), nTweetlen=len(ntweets),
                            pTweetLen=len(ptweets), nList=ntweetList, pList=ptweetsList,
@@ -196,7 +181,7 @@ def results():
 @app.route('/update', methods=['GET'])
 def updateResults():
     # creating object of TwitterClient Class
-    api = TwitterClient()
+    api = user_lookup()
     # calling function to get tweets
     topic = 'Donald Trump'
     tweets = api.get_tweets(query=topic, count=20000)
@@ -254,13 +239,10 @@ def updateResults():
            "tweetslen": tweetslen, "nTweetlen": nTweetlen,
            "pTweetLen": pTweetLen, "name": name, "url": url,
            "title": title}
-    #print(jsonify(res))
-    #print(tweets[0])
-    user0 = api.get_user(screen_name=tweets[0]['screen_name'], user_id=tweets[0]['user_id'])
-    #print(user0)
-    print(user0._json)
+    print(jsonify(res))
     return jsonify(res)
 
 
 if __name__ == '__main__':
-    app.run()
+    #app.run()
+    results()
