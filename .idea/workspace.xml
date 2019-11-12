@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95855ecd-f9ab-4c31-a469-4cf406fabd85" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/user_lookup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/images/new_plot.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/new_plot.png" afterDir="false" />
@@ -20,7 +19,6 @@
         <option value="Flask Main" />
         <option value="HTML File" />
         <option value="JavaScript File" />
-        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -32,7 +30,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/user_lookup.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -63,26 +61,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Flask server.twitter_project">
-    <configuration name="user_lookup" type="PythonConfigurationType" factoryName="Python">
-      <module name="flask_lab_01" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="C:\Users\skell\venv\Scripts\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/user_lookup.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="twitter_project" type="Python.FlaskServer">
       <module name="flask_lab_01" />
       <option name="target" value="$PROJECT_DIR$/app.py" />
@@ -98,10 +77,6 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Flask server.twitter_project" />
-      <item itemvalue="Python.user_lookup" />
-    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -123,9 +98,7 @@
       <workItem from="1571666262103" duration="617000" />
       <workItem from="1571734908157" duration="1897000" />
       <workItem from="1572858208536" duration="4292000" />
-      <workItem from="1572944507231" duration="6992000" />
-      <workItem from="1573463299001" duration="4735000" />
-      <workItem from="1573552993747" duration="2779000" />
+      <workItem from="1572944507231" duration="6222000" />
     </task>
     <servers />
   </component>
@@ -146,7 +119,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/twitter_Project$twitter_project.coverage" NAME="twitter_project Coverage Results" MODIFIED="1573555708775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/twitter_Project$twitter_project.coverage" NAME="twitter_project Coverage Results" MODIFIED="1572951130266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/flask_lab_01$flask_lab_01.coverage" NAME="flask_lab_01 Coverage Results" MODIFIED="1571239978932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/twitter_Project$flask_lab_01.coverage" NAME="twitter_project Coverage Results" MODIFIED="1571649864797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>

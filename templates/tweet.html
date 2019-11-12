@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
@@ -31,8 +30,33 @@
 </ol>
 </body>
 <script type="text/javascript">
-    update();
-    // setInterval(update, 60000);
+    document.addEventListener('DOMContentLoaded', function () {
+        var myChart = Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Sentiment'
+            },
+            xAxis: {
+                categories: ['Negative', 'Neutral ', 'Positive']
+            },
+            yAxis: {
+                title: {
+                    text: 'Tweets'
+                }
+            },
+            series: [{
+                name: '{{ title }}',
+                data: [{{ nTweetlen }}, {{ tweetslen }}, {{ pTweetLen }}]
+            },
+                {
+                    'name': 'number 2',
+                    data: [5, 7, 3]
+                }]
+        })
+    });
+    setInterval(update, 5000);
 
     function update() {
         console.log('update');
@@ -69,44 +93,44 @@
             series: [{
                 name: '{{ title }}',
                 data: [{
-                    name: "Negative",
-                    y:{{ nTweetlen }},
-                    drilldown: "Negative"
+                    name: 'Negative',
+                    y:{{ nTweetlen }}
+                    ,drilldown: 'Negative'
                 }, {
-                    name: "Neutral",
-                    y:{{ tweetslen }},
-                    drilldown: "Neutral"
+                    name: 'Neutral',
+                    y:{{ tweetslen }}
+                    ,drilldown:'Neutral'
                 }, {
-                    name: "Positive",
-                    y:{{ pTweetLen}},
-                    drilldown: "Positive"
+                    name: 'Positive',
+                    y:{{ pTweetLen}}
+                    ,drilldown:'Positive'
                 }]
-            }],
-            drilldown: {
+            }]
+          ,drilldown:{
                 series: [
                     {
                         name: "Negative",
                         id: "Negative",
-                        data: [[
-                            "Negative",
-                            {{ nTweetlen }}
-                        ]]
+                        data: [{
+                            name: 'Negative',
+                            x:{{ nTweetlen }},
+                        }]
                     },
                     {
                         name: "Neutral",
                         id: "Neutral",
-                        data: [[
-                            "Neutral",
-                            {{ tweetslen }}
-                        ]]
+                        data: [{
+                            name: 'Neutral',
+                            x:{{ tweetslen }},
+                        }]
                     },
                     {
                         name: "Positive",
                         id: "Positive",
-                        data: [[
-                            "Positive",
-                            {{ pTweetLen }}
-                        ]]
+                        data: [{
+                            name: 'Positive',
+                            x:{{ pTweetLen }},
+                        }]
                     }]
             }
         })
