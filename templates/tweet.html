@@ -10,7 +10,6 @@
 <body>
 <h1>{{ title }}</h1>
 <div id="container" style="width:100%; height:400px;"></div>
-<!--img src={{ url}} alt="Chart"-->
 <h3>Positive Sentiment: {{ pPer }}%</h3>
 <ol>
     {% for i in range(0, pTweetLen) %}
@@ -40,6 +39,28 @@
         const url = 'http://127.0.0.1:5000/update';
         Http.open("GET", url);
         Http.send();
+        var pDrill = [];
+
+        {% for j in range(0, headerLen) %}
+            pDrill += {
+                "name":"{{ drilldownHeaders[j] }}",
+                "y": "{{ pSource[j] }}"
+            };
+        {% endfor %}
+        // console.log({{ headerLen }});
+        // for (i = 0; i < {{ headerLen }}; i++) {
+        //    console.log("Count: " + {{ pSource[i] }});
+        //    console.log("Name: "+{{ drilldownHeaders[i] }});
+        //}
+        //for (i = 0; i < {{ headerLen }}; i++) {
+        //    console.log({{ drilldownHeaders[i] }});
+        //    pDrill += {
+        //        "name":"{{ drilldownHeaders[i] }}",
+        //        "y": "{{ pSource[i] }}"
+        //    };
+        //}
+        console.log(pDrill);
+
         var myChart = Highcharts.chart('container', {
             chart: {
                 type: 'bar'
@@ -48,7 +69,7 @@
                 text: 'Sentiment'
             },
             xAxis: {
-                categories: ['Negative', 'Neutral ', 'Positive']
+                type:"category"
             },
             yAxis: {
                 title: {
@@ -71,42 +92,49 @@
                 data: [{
                     name: 'Negative',
                     y:{{ nTweetlen }}
-                    ,drilldown: 'Negative'
+                    , drilldown: 'Negative'
                 }, {
                     name: 'Neutral',
                     y:{{ tweetslen }}
-                    ,drilldown:'Neutral'
+                    , drilldown: 'Neutral'
                 }, {
                     name: 'Positive',
                     y:{{ pTweetLen}}
-                    ,drilldown:'Positive'
+                    , drilldown: 'Positive'
                 }]
             }]
-          ,drilldown:{
+            , drilldown: {
                 series: [
                     {
                         name: "Negative",
                         id: "Negative",
-                        data: [{
-                            name: 'Negative',
-                            y:{{ nTweetlen }},
-                        }]
+                        data: [{% for k in range(0, headerLen) %}
+                            {
+                                "name":"{{ drilldownHeaders[k] }}",
+                                "y": {{ nSource[k] }}
+                            },
+                        {% endfor %}]
                     },
                     {
                         name: "Neutral",
                         id: "Neutral",
-                        data: [{
-                            name: 'Neutral',
-                            y:{{ tweetslen }},
-                        }]
+                        data: [{% for k in range(0, headerLen) %}
+                            {
+                                "name":"{{ drilldownHeaders[k] }}",
+                                "y": {{ nutSource[k] }}
+                            },
+                        {% endfor %}]
                     },
                     {
                         name: "Positive",
                         id: "Positive",
-                        data: [{
-                            name: 'Positive',
-                            y:{{ pTweetLen }},
-                        }]
+                        data: [{% for k in range(0, headerLen) %}
+                            {
+                                "name":"{{ drilldownHeaders[k] }}",
+                                "y": {{ pSource[k] }}
+                            },
+                        {% endfor %}]
+
                     }]
             }
         })

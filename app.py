@@ -94,7 +94,7 @@ class TwitterClient(object):
                 parsed_tweet['profile_pic'] = tweet.user.profile_image_url
                 parsed_tweet['location'] = tweet.user.location
                 parsed_tweet['screen_name'] = tweet.user.screen_name
-                #print(tweet.source)
+                # print(tweet.source)
                 parsed_tweet['source'] = tweet.source
                 # saving text of tweet
                 parsed_tweet['text'] = tweet.text
@@ -146,9 +146,13 @@ def results():
     # printing first 5 positive tweets
     print("\n\nPositive tweets:")
 
+    nSource = []
+    nutSource = []
     pSource = []
     for i in drilldownHeaders:
         pSource.append(0)
+        nutSource.append(0)
+        nSource.append(0)
 
     ptweetsList = []
     pListProfile = []
@@ -158,37 +162,41 @@ def results():
         tweetText = tweet['screen_name'] + " : " + tweet['text']
         ptweetsList.append(tweetText)
         pSource[drilldownHeaders.index(tweet['source'])] += 1
+    print('pSource')
+    for p in pSource:
+        print(p)
 
     # printing first 5 negative tweets
     print("\n\nNegative tweets:")
     ntweetList = []
     for tweet in ntweets:
         ntweetList.append(tweet['screen_name'] + " : " + tweet['text'])
+        nSource[drilldownHeaders.index(tweet['source'])] += 1
 
     nutTweetList = [tweet for tweet in tweets if tweet['sentiment'] == 'neutral']
     tweetList = []
     for tweet in nutTweetList:
         tweetList.append(tweet['screen_name'] + " : " + tweet['text'])
+        nutSource[drilldownHeaders.index(tweet['source'])] += 1
     # print(topic)
 
     labels = 'Positive', 'Negative', 'Neutral'
-    sizes = [len(ptweets), len(ntweets), len(tweetList)]
-    explode = (0.1, 0.1, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-    fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-            shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    plt.savefig('./static/images/new_plot.png')
-    # plt.show()
     for headers in drilldownHeaders:
         print(headers)
     return render_template('tweet.html', pPer=posPer, negP=negPer, nuP=nutPer,
-                           tweetslen=len(tweetList), nTweetlen=len(ntweets),
-                           pTweetLen=len(ptweets), nList=ntweetList, pList=ptweetsList,
+                           tweetslen=len(tweetList),
+                           nTweetlen=len(ntweets),
+                           pTweetLen=len(ptweets),
+                           nList=ntweetList,
+                           pList=ptweetsList,
                            pListProfile=pListProfile,
-                           List=tweetList, name='new_plot', url='./static/images/new_plot.png',
-                           title=topic)
+                           List=tweetList,
+                           drilldownHeaders=drilldownHeaders,
+                           headerLen=len(drilldownHeaders),
+                           title=topic,
+                           pSource=pSource,
+                           nSource=nSource,
+                           nutSource=nutSource)
 
 
 @app.route('/update', methods=['GET'])
@@ -198,8 +206,6 @@ def updateResults():
     # calling function to get tweets
     topic = 'Donald Trump'
     tweets = api.get_tweets(query=topic, count=20000)
-
-
 
     drilldownHeaders = []
     for tweet in tweets:
@@ -222,9 +228,13 @@ def updateResults():
     # printing first 5 positive tweets
     ptweetsList = []
     pListProfile = []
+    nSource = []
+    nutSource = []
     pSource = []
     for i in drilldownHeaders:
         pSource.append(0)
+        nutSource.append(0)
+        nSource.append(0)
 
     for tweet in ptweets:
         # print(tweet['text'])
@@ -237,33 +247,37 @@ def updateResults():
     ntweetList = []
     for tweet in ntweets:
         ntweetList.append(tweet['screen_name'] + " : " + tweet['text'])
+        nSource[drilldownHeaders.index(tweet['source'])] += 1
 
     nutTweetList = [tweet for tweet in tweets if tweet['sentiment'] == 'neutral']
     tweetList = []
     for tweet in nutTweetList:
         tweetList.append(tweet['screen_name'] + " : " + tweet['text'])
+        nutSource[drilldownHeaders.index(tweet['source'])] += 1
     # print(topic)
 
     labels = 'Positive', 'Negative', 'Neutral'
-    sizes = [len(ptweets), len(ntweets), len(tweetList)]
-    explode = (0.1, 0.1, 0.1)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-    fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-            shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    plt.savefig('./static/images/new_plot.png')
     # plt.show()
     tweetslen = len(tweetList)
     nTweetlen = len(ntweets)
     pTweetLen = len(ptweets)
-    name = 'new_plot'
-    url = './static/images/new_plot.png',
+    headerLen = len(drilldownHeaders)
     title = topic
-    res = {"pPer": pPer, "negP": negP, "nuP": nuP,
-           "tweetslen": tweetslen, "nTweetlen": nTweetlen,
-           "pTweetLen": pTweetLen, "name": name, "url": url,
-           "title": title}
+    res = {
+        "pPer": pPer,
+        "negP": negP,
+        "nuP": nuP,
+        "tweetslen": tweetslen,
+        "nTweetlen": nTweetlen,
+        "pTweetLen": pTweetLen,
+        "title": title,
+        "drilldownHeaders": drilldownHeaders,
+        "headerLen": headerLen,
+        "pSource": pSource,
+        "nutSource":nutSource,
+        "nSource": nSource
+    }
+
     print(jsonify(res))
     return jsonify(res)
 
