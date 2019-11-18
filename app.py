@@ -94,6 +94,8 @@ class TwitterClient(object):
                 parsed_tweet['profile_pic'] = tweet.user.profile_image_url
                 parsed_tweet['location'] = tweet.user.location
                 parsed_tweet['screen_name'] = tweet.user.screen_name
+                #print(tweet.source)
+                parsed_tweet['source'] = tweet.source
                 # saving text of tweet
                 parsed_tweet['text'] = tweet.text
                 # saving sentiment of tweet
@@ -123,6 +125,11 @@ def results():
     topic = 'Donald Trump'
     tweets = api.get_tweets(query=topic, count=20000)
 
+    drilldownHeaders = []
+    for tweet in tweets:
+        if tweet['source'] not in drilldownHeaders:
+            drilldownHeaders.append(tweet['source'])
+
     # picking positive tweets from tweets
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
     # percentage of positive tweets
@@ -138,6 +145,11 @@ def results():
     nutPer = 100 * (len(tweets) - (len(ntweets) + len(ptweets))) / len(tweets)
     # printing first 5 positive tweets
     print("\n\nPositive tweets:")
+
+    pSource = []
+    for i in drilldownHeaders:
+        pSource.append(0)
+
     ptweetsList = []
     pListProfile = []
     for tweet in ptweets:
@@ -145,6 +157,7 @@ def results():
         pListProfile.append(tweet['profile_pic'])
         tweetText = tweet['screen_name'] + " : " + tweet['text']
         ptweetsList.append(tweetText)
+        pSource[drilldownHeaders.index(tweet['source'])] += 1
 
     # printing first 5 negative tweets
     print("\n\nNegative tweets:")
@@ -168,6 +181,8 @@ def results():
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     plt.savefig('./static/images/new_plot.png')
     # plt.show()
+    for headers in drilldownHeaders:
+        print(headers)
     return render_template('tweet.html', pPer=posPer, negP=negPer, nuP=nutPer,
                            tweetslen=len(tweetList), nTweetlen=len(ntweets),
                            pTweetLen=len(ptweets), nList=ntweetList, pList=ptweetsList,
@@ -183,6 +198,13 @@ def updateResults():
     # calling function to get tweets
     topic = 'Donald Trump'
     tweets = api.get_tweets(query=topic, count=20000)
+
+
+
+    drilldownHeaders = []
+    for tweet in tweets:
+        if tweet['source'] not in drilldownHeaders:
+            drilldownHeaders.append(tweet['source'])
 
     # picking positive tweets from tweets
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
@@ -200,11 +222,16 @@ def updateResults():
     # printing first 5 positive tweets
     ptweetsList = []
     pListProfile = []
+    pSource = []
+    for i in drilldownHeaders:
+        pSource.append(0)
+
     for tweet in ptweets:
         # print(tweet['text'])
         # pListProfile.append(tweet['profile_pic'])
         tweetText = tweet['screen_name'] + " : " + tweet['text']
         ptweetsList.append(tweetText)
+        pSource[drilldownHeaders.index(tweet['source'])] += 1
 
     # printing first 5 negative tweets
     ntweetList = []

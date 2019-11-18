@@ -5,6 +5,7 @@
     <title>{{ title }}</title>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
 </head>
 <body>
 <h1>{{ title }}</h1>
@@ -30,33 +31,8 @@
 </ol>
 </body>
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function () {
-        var myChart = Highcharts.chart('container', {
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'Sentiment'
-            },
-            xAxis: {
-                categories: ['Negative', 'Neutral ', 'Positive']
-            },
-            yAxis: {
-                title: {
-                    text: 'Tweets'
-                }
-            },
-            series: [{
-                name: '{{ title }}',
-                data: [{{ nTweetlen }}, {{ tweetslen }}, {{ pTweetLen }}]
-            },
-                {
-                    'name': 'number 2',
-                    data: [5, 7, 3]
-                }]
-        })
-    });
-    setInterval(update, 5000);
+    update();
+    setInterval(update, 60000);
 
     function update() {
         console.log('update');
@@ -113,7 +89,7 @@
                         id: "Negative",
                         data: [{
                             name: 'Negative',
-                            x:{{ nTweetlen }},
+                            y:{{ nTweetlen }},
                         }]
                     },
                     {
@@ -121,7 +97,7 @@
                         id: "Neutral",
                         data: [{
                             name: 'Neutral',
-                            x:{{ tweetslen }},
+                            y:{{ tweetslen }},
                         }]
                     },
                     {
@@ -129,7 +105,7 @@
                         id: "Positive",
                         data: [{
                             name: 'Positive',
-                            x:{{ pTweetLen }},
+                            y:{{ pTweetLen }},
                         }]
                     }]
             }
